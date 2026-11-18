@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 mkdir -p build
 
-bend http_test.bend | grep -q 'ALL PROOFS CHECK' || { bend http_test.bend; exit 1; }
+bend PROOF.bend | grep -q 'ALL PROOFS CHECK' || { bend PROOF.bend; exit 1; }
 
 # expect <answer> <command...>: the runtime must give <answer> to event {"n":1}.
 expect() {

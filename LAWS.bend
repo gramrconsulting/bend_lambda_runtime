@@ -1,3 +1,4 @@
+# The laws of this project: each is an open claim here, proven in PROOF.bend.
 import Base
 import ./http.bend as H
 
@@ -7,17 +8,8 @@ def reply() -> List<&2, String>:
 law request:
   {H.Http.request("POST", "/x", "h:1", "æ1") == "POST /x HTTP/1.0\r\nHost: h:1\r\nContent-Length: 3\r\n\r\næ1" : String}
 
-def request():
-  {==}
-
 law header:
   {H.Http.header(reply(), "lambda-runtime-aws-request-id:") == Some{"abc-1"} : Maybe<&2, String>}
 
-def header():
-  {==}
-
 law body:
   {H.Http.body(reply()) == "{\"a\":\n1}" : String}
-
-def body():
-  {==}
