@@ -14,10 +14,17 @@ def main() -> IO(Unit):
   Lambda.run(~echo)
 ```
 
+## Layout
+
+- `runtime.bend`, `http.bend`: the modules a function imports.
+- `LAWS.bend`, `PROOF.bend`: the laws and their proofs; `bend PROOF.bend` is the gate.
+- `example/echo.bend`: a complete function.
+- `test/fake_api.mjs`: a stand-in for the Lambda Runtime API.
+
 ## Build
 
 ```bash
-./build.sh echo.bend build/aarch64    # bootstrap + function.zip, static aarch64
+./build.sh example/echo.bend build/aarch64    # bootstrap + function.zip, static aarch64
 ```
 
 Deploy `function.zip` as runtime `provided.al2023`, architecture `arm64`.
