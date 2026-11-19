@@ -13,3 +13,25 @@ law header:
 
 law body:
   {H.Http.body(reply()) == "{\"a\":\n1}" : String}
+
+# The length of a joined text is the lengths of its parts, counted in turn:
+# Content-Length does not depend on how the body was put together.
+law length_of_parts:
+  for a: String
+  for b: String
+  for acc: U32
+  {H.Utf8.length(String.append(a, b), acc) == H.Utf8.length(b, H.Utf8.length(a, acc)) : U32}
+
+# The body is everything after the first blank line, with later blank lines kept.
+law body_after_blank:
+  for rest: List<&2, String>
+  {H.Http.body("\r" <> rest) == String.join(rest, "\n") : String}
+
+# A status line or header before the blank line is never part of the body.
+law body_skips_header:
+  for rest: List<&2, String>
+  {H.Http.body("Content-Type: text/plain\r" <> rest) == H.Http.body(rest) : String}
+
+law header_absent:
+  for name: String
+  {H.Http.header([], name) == None{} : Maybe<&2, String>}
